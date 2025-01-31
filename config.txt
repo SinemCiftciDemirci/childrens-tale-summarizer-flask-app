@@ -1,0 +1,6 @@
+SECRET_KEY= ""
+HUGGINGFACE_API_KEY= ""
+SUMMARY_MODEL_NAME=Turkish-NLP/t5-efficient-small-MLSUM-TR-fine-tuned
+TRANSLATION_MODEL_NAME=Helsinki-NLP/opus-mt-tr-en
+IMAGE_MODEL_ID=runwayml/stable-diffusion-v1-5
+OPENAI_API_KEY=""

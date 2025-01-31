@@ -1,0 +1,10 @@
+Flask
+flask_sqlalchemy
+nltk
+transformers
+torch
+Pillow
+diffusers
+huggingface_hub
+PyPDF2
+accelerate
