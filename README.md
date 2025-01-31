@@ -1,1 +1,3 @@
 # childrens-tale-summarizer
+
+Using the summarization models available on the Hugging Face Platform with Turkish language support, Turkish children's tales were summarized and the performance of these models was compared. As a result of this performance analysis, the parameters of the three most successful models were adjusted specifically for the model. For this, the most suitable tale for summarization was selected from among the tales used and the parameters were adjusted according to the success here. Tales were divided into three sections as introduction-development-conclusion, and visuals were produced with a separate summary for each section and a visual production model for each summary.
