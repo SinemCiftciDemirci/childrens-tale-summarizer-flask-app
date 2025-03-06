@@ -1,3 +1,4 @@
+#summarizer.py
 import nltk
 import re
 import logging
@@ -13,54 +14,6 @@ try:
     nltk.data.find('tokenizers/punkt')
 except LookupError:
     nltk.download('punkt')
-
-def calculate_lengths(token_length, section):
-    if section == "introduction":
-        max_len = min(300, int(0.3 * token_length))
-        min_len = max(80, int(0.15 * token_length))
-    elif section == "development":
-        max_len = min(300, int(0.3 * token_length))
-        min_len = max(90, int(0.15 * token_length))
-    else:  # conclusion
-        max_len = min(250, int(0.3 * token_length))
-        min_len = max(80, int(0.15 * token_length))
-
-
-    if min_len >= max_len:
-        min_len = max_len - 1
-
-    return max_len, min_len
-
-# Parametreler
-PARAMETERS = {
-    "introduction": {
-        "repetition_penalty": 1.4,
-        "no_repeat_ngram_size": 2,
-        "top_k": 50,
-        "top_p": 0.7,
-        "temperature": 0.5,
-        "num_beams": 8,
-        "do_sample": True
-    },
-    "development": {
-        "repetition_penalty": 1.5,
-        "no_repeat_ngram_size": 3,
-        "top_k": 50,
-        "top_p": 0.8,
-        "temperature": 0.5,
-        "num_beams": 16,
-        "do_sample": True
-    },
-    "conclusion": {
-        "repetition_penalty": 1.5,
-        "no_repeat_ngram_size": 3,
-        "top_k": 50,
-        "top_p": 0.7,
-        "temperature": 0.5,
-        "num_beams": 9,
-        "do_sample": True
-    }
-}
 
 def clean_text(text):
     text = text.strip()
@@ -117,6 +70,7 @@ def get_summarizer_pipeline(model_name, device, logger):
 
         # Modelin konfigürasyonundan maksimum girdi uzunluğunu al
         config = model.config
+        
         max_input_length = getattr(config, 'max_position_embeddings', 1024)
 
         logger.info(f"{model_name} modeli için maksimum girdi uzunluğu: {max_input_length}")
@@ -136,12 +90,15 @@ def get_summarizer_pipeline(model_name, device, logger):
         logger.error(f"Özetleme pipeline'ı yüklenirken hata oluştu: {e}")
         return None, None, None
 
+
+
 def summarize_text(text, summarizer_pipeline, tokenizer, max_input_length, logger):
     """
     Metni (intro, dev, conc) olarak ayır ve her bölümü chunking ile özetle.
     """
     # 1) Metni 3 parçaya ayıran fonksiyon:
     intro_text, dev_text, conc_text = split_into_sections_sentence_based(text, logger)
+    
     logger.info("Metin giriş, gelişme ve sonuç bölümlerine ayrıldı.")
 
     # 2) Bölümleri özetle
@@ -149,56 +106,82 @@ def summarize_text(text, summarizer_pipeline, tokenizer, max_input_length, logge
     development = summarize_section(dev_text, summarizer_pipeline, tokenizer, logger, 'development')
     conclusion = summarize_section(conc_text, summarizer_pipeline, tokenizer, logger, 'conclusion')
 
-    # Eğer token bazında ölçmek isterseniz:
-    intro_tokens = len(tokenizer.encode(introduction, add_special_tokens=False))
-    dev_tokens = len(tokenizer.encode(development, add_special_tokens=False))
-    conc_tokens = len(tokenizer.encode(conclusion, add_special_tokens=False))
-    logger.info(f"Introduction: {intro_tokens} token")
-    logger.info(f"Development: {dev_tokens} token")
-    logger.info(f"Conclusion: {conc_tokens} token")
-
     return introduction, development, conclusion
+
 
 def summarize_section(section_text, summarizer_pipeline, tokenizer, logger, section):
     """
-    Tek bir bölümü her zaman chunking ile özetler.
+    Tek bir bölümü chunking ile özetler.
     """
     # Token sayısı
     tokens = tokenizer.encode(section_text, return_tensors='pt')
     token_length = tokens.size(1)
     logger.info(f"{section.capitalize()} bölümünün girdi token sayısı: {token_length}")
 
-    # Chunklama parametreleri
-    max_len, min_len = calculate_lengths(token_length, section)
-    params = PARAMETERS.get(section, {})
-    if not params:
-        logger.warning(f"{section} için parametreler bulunamadı. Varsayılan değerler kullanılacak.")
+    # Belirli bir chunk_size eşiği (örn. 800 veya 1024)
+    chunk_size = 800
+    if token_length <= chunk_size:
+        # Kısa ise direkt özetle
+        return _summarize_chunk(section_text, summarizer_pipeline, tokenizer, logger, section)
+    else:
+        # Uzun ise parçalara böl
+        all_tokens = tokens[0]
+        chunk_summaries = []
+        for start_idx in range(0, token_length, chunk_size):
+            end_idx = start_idx + chunk_size
+            chunk_slice = all_tokens[start_idx:end_idx]
+            chunk_text = tokenizer.decode(chunk_slice, skip_special_tokens=True)
+            
+            # Parça özet
+            partial_summary = _summarize_chunk(
+                chunk_text, summarizer_pipeline, tokenizer, logger, f"{section}_partial"
+            )
+            chunk_summaries.append(partial_summary)
 
-    chunk_size = 800  # Chunk başına maksimum token sayısı
-    all_tokens = tokens[0]
-    chunk_summaries = []
+        # Parça özetlerini birleştir
+        combined = " ".join(chunk_summaries)
 
-    # Chunk'lara ayır ve her chunk'ı özetle
-    for start_idx in range(0, token_length, chunk_size):
-        end_idx = start_idx + chunk_size
-        chunk_slice = all_tokens[start_idx:end_idx]
-        chunk_text = tokenizer.decode(chunk_slice, skip_special_tokens=True)
+        return combined
 
+
+def _summarize_chunk(text, summarizer_pipeline, tokenizer, logger, section):
+    try:
+        tokens = tokenizer.encode(text, return_tensors='pt')
+        token_length = tokens.size(1)
+
+        if section == "introduction":
+            max_len = min(250, max(50, int(0.3 * token_length)))
+            min_len = max(50, int(0.15 * token_length))
+        elif section == "development":
+            max_len = min(300, max(120, int(0.4 * token_length)))
+            min_len = max(100, int(0.2 * token_length))
+        else:  # conclusion
+            max_len = min(250, max(50, int(0.3 * token_length)))
+            min_len = max(50, int(0.15 * token_length))
+
+        if min_len >= max_len:
+            min_len = max_len - 1
+
+        # Logger bilgilerini doğru sırada ekle
+        logger.info(f"{section.capitalize()} chunk token sayısı: {token_length}")
+        logger.info(f"{section.capitalize()} chunk max token sayısı: {max_len}")
+        logger.info(f"{section.capitalize()} chunk min token sayısı: {min_len}")
+
+        # Özetleme çağrısı
         summary = summarizer_pipeline(
-            chunk_text,
+            text,
             max_length=max_len,
             min_length=min_len,
-            do_sample=params['do_sample'],
-            top_k=params['top_k'],
-            top_p=params['top_p'],
-            temperature=params['temperature'],
-            num_beams=params['num_beams'],
-            repetition_penalty=params['repetition_penalty'],
-            no_repeat_ngram_size=params.get("no_repeat_ngram_size", 3)
+            do_sample=False,
+            num_beams=6,
+            repetition_penalty=1.4
         )[0]['summary_text']
 
-        chunk_summaries.append(summary)
+        summary_tokens = tokenizer.encode(summary, return_tensors='pt').size(1)
+        logger.info(f"{section.capitalize()} özet token sayısı: {summary_tokens}")
 
-    # Parça özetlerini birleştir
-    combined = " ".join(chunk_summaries)
-    return combined
+        return summary
+
+    except Exception as e:
+        logger.error(f"Error in summarizing chunk: {e}")
+        return text
