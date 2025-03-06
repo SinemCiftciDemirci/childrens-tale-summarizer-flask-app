@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitap Yükle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<header>
+    <h1>Kitap Özetleme Platformu</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Ana Sayfa</a> | 
+        <a href="{{ url_for('upload') }}">Kitap Yükle</a> | 
+        <a href="{{ url_for('search') }}">Özet Ara</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Kitap Yükle</h2>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".txt,.pdf">
+        <button type="submit">Yükle ve Özetle</button>
+    </form>
+</main>
+
+<footer>
+    &copy; 2024 Kitap Özetleme Platformu
+</footer>
+</body>
+</html>

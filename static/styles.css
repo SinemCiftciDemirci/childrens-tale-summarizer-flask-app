@@ -1,0 +1,114 @@
+/* static/styles.css */
+
+/* Gövde genel stiller */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;              /* Flex konteyner yapıyoruz */
+    flex-direction: column;     /* Üstten alta doğru sıralama */
+    align-items: center;        /* Yatayda içeriği ortala */
+    background-color: #f4f4f4;
+    min-height: 100vh;          /* Tam ekran yüksekliği */
+}
+
+/* Header, main ve footer genel stiller */
+header, main, footer {
+    width: 80%;                 /* İçerik genişliği, ekran dar ise %80, geniş ise max 1200px */
+    max-width: 1200px;          /* Ekran çok geniş ise en fazla 1200px */
+    background: #fff;
+    margin: 20px 0;             /* Üst-alt boşluk */
+    padding: 20px;
+    text-align: center;         /* İçindeki metinleri ortala */
+    border-radius: 5px;
+}
+
+/* Header için özel stiller */
+header {
+    background: #89A8B2;
+    color: #fff;
+}
+
+/* Menü linkleri */
+nav a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+/* MAIN alanını dikeyde esnetmek için */
+main {
+    flex: 1; /* Boşluk doldursun */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* İçerik ortalanmış olacak */
+    min-height: 60vh;         /* En az %60 ekran yüksekliği kadar yer kaplasın */
+}
+
+/* Özet bölümü */
+.summary-section {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/* Metinlerin iki yana yaslanması */
+.summary-section p {
+    text-align: justify;       /* Metinleri iki yana yasla */
+    line-height: 1.6;          /* Daha iyi okunabilirlik için satır yüksekliği */
+}
+
+/* Resimlerin ortalanması */
+.summary-section img {
+    max-width: 100%;           /* Resim genişliği %100'ü geçmesin */
+    height: auto;              /* Yüksekliği otomatik ayarla */
+    display: block;            /* Blok eleman olarak ayarla */
+    margin: 10px auto;         /* Ortalamak için margin */
+}
+
+/* Footer için özel stiller */
+footer {
+    background: #B3C8CF;
+    color: #fff;
+    position: relative;
+}
+
+/* Liste stilleri */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Buton stilleri */
+button {
+    padding: 10px 20px;
+    background-color: #E5E1DA;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #89A8B2;
+}
+
+/* Metin alanı stilleri */
+textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #E5E1DA;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}

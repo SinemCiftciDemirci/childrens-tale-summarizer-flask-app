@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitap Özetleme Platformu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<header>
+    <h1>Kitap Özetleme Platformu</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Ana Sayfa</a> | 
+        <a href="{{ url_for('upload') }}">Kitap Yükle</a> | 
+        <a href="{{ url_for('search') }}">Özet Ara</a>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <h2>Hoş Geldiniz!</h2>
+        <p>Kitaplarınızı kolayca yükleyin ve özetlerini hızlıca alın. Oluşturulan özetleri arayarak dilediğiniz bilgilere de ulaşabilirsiniz.</p>
+        <a href="{{ url_for('upload') }}">Şimdi Kitap Yükle</a>
+    </section>
+
+    <section>
+        <h2>Metin Girerek Özet Al</h2>
+        <form method="post" action="{{ url_for('index') }}">
+            <textarea name="user_text" rows="10" cols="50" placeholder="Buraya metninizi yazın. (Maksimum 10.000 karakter)"></textarea><br><br>
+            <button type="submit">Özetle</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Öne Çıkan Özetler</h2>
+        {% if featured_summaries %}
+            <ul>
+            {% for summary in featured_summaries %}
+                <li>
+                    <a href="{{ url_for('summary', summary_id=summary.id) }}">{{ summary.title }}</a>
+                    <p>{{ summary.introduction[:100] }}...</p>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Henüz özet eklenmemiş.</p>
+        {% endif %}
+    </section>
+</main>
+
+<footer>
+    &copy; 2024 Kitap Özetleme Platformu
+</footer>
+</body>
+</html>

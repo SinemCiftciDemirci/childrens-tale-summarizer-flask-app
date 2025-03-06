@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Özet | {{ summary.title }}</title>
+</head>
+<body>
+<header>
+    <h1>Kitap Özetleme Platformu</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Ana Sayfa</a> | 
+        <a href="{{ url_for('upload') }}">Kitap Yükle</a> | 
+        <a href="{{ url_for('search') }}">Özet Ara</a>
+    </nav>
+</header>
+
+<main>
+    <h2>{{ summary.title }}</h2>
+
+    <div class="summary-section">
+        <h2>Giriş</h2>
+        <p>{{ summary.introduction }}</p>
+        {% if summary.img_intro %}
+            <img src="{{ url_for('static', filename=summary.img_intro) }}" alt="Giriş Görseli">
+        {% else %}
+            <p>Görsel bulunamadı.</p>
+        {% endif %}
+    </div>
+
+    <div class="summary-section">
+        <h2>Gelişme</h2>
+        <p>{{ summary.development }}</p>
+        {% if summary.img_development %}
+            <img src="{{ url_for('static', filename=summary.img_development) }}" alt="Gelişme Görseli">
+        {% else %}
+            <p>Görsel bulunamadı.</p>
+        {% endif %}
+    </div>
+
+    <div class="summary-section">
+        <h2>Sonuç</h2>
+        <p>{{ summary.conclusion }}</p>
+        {% if summary.img_conclusion %}
+            <img src="{{ url_for('static', filename=summary.img_conclusion) }}" alt="Sonuç Görseli">
+        {% else %}
+            <p>Görsel bulunamadı.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('index') }}">Anasayfaya Dön</a>
+</main>
+
+<footer>
+    &copy; 2024 Kitap Özetleme Platformu
+</footer>
+</body>
+</html>

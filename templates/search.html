@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Özet Ara</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<header>
+    <h1>Kitap Özetleme Platformu</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Ana Sayfa</a> | 
+        <a href="{{ url_for('upload') }}">Kitap Yükle</a> | 
+        <a href="{{ url_for('search') }}">Özet Ara</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Özet Ara</h2>
+    <form method="post" action="{{ url_for('search') }}">
+        <input type="text" name="query" placeholder="Aranacak kelimeyi girin">
+        <button type="submit">Ara</button>
+    </form>
+
+    {% if summaries is not none %}
+        <h3>"{{ query }}" için sonuçlar:</h3>
+        {% if summaries %}
+            <ul>
+            {% for summary in summaries %}
+                <li>
+                    <a href="{{ url_for('summary', summary_id=summary.id) }}">{{ summary.title }}</a><br>
+                    <p>{{ summary.introduction[:100] }}...</p>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Hiç sonuç bulunamadı.</p>
+        {% endif %}
+    {% endif %}
+</main>
+
+<footer>
+    &copy; 2024 Kitap Özetleme Platformu
+</footer>
+</body>
+</html>
