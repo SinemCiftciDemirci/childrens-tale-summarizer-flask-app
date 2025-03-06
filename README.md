@@ -13,7 +13,7 @@ This project is a Flask-based web application designed to summarize Turkish chil
 # 📂 Project Structure
 
 ├── instance/ # Contains the SQLite database (summaries.db)
-├── static/ # Static files (CSS, images, JS) 
+├── static/ # Static files (CSS, images) 
 │ └── styles.css 
 ├── templates/ # HTML templates for the Flask
 │ └──index.html
