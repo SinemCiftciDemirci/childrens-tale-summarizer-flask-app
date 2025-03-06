@@ -14,17 +14,11 @@ Using the summarization models available on the Hugging Face Platform with Turki
 ├── app.py                     # Flask web application
 ├── config.txt                  # API keys and model configurations
 ├── config_loader.py            # Loads configuration files
-├── summarizer.py               # Main summarization logic
 ├── image_generator.py          # AI-based image generation
-├── performance.py              # Model performance evaluation
-├── performance_comparison.py   # Performance comparison analysis
-├── vision_model_test.py        # Image generation test scripts
 ├── requirements.txt            # Required dependencies
+├── summarizer.py               # Main summarization logic
 ├── templates/                  # HTML templates for Flask
-├── static/images/              # Generated images
-├── uploads/                    # User-uploaded files
-├── summaries/                  # Generated summaries
-└── metrics/                    # Performance analysis outputs
+
 
 # 🛠 Installation & Setup
 1️⃣ Install Dependencies
