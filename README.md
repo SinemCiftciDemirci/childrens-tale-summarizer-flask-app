@@ -1,23 +1,33 @@
 # childrens-tale-summarizer
 # Overview
-Using the summarization models available on the Hugging Face Platform with Turkish language support, Turkish children's tales were summarized and the performance of these models was compared. As a result of this performance analysis, the parameters of the three most successful models were adjusted specifically for the model. For this, the most suitable tale for summarization was selected from among the tales used and the parameters were adjusted according to the success here. Tales were divided into three sections as introduction-development-conclusion, and visuals were produced with a separate summary for each section and a visual production model for each summary.
+This project is a Flask-based web application designed to summarize Turkish children's tales using AI-powered NLP models and generate corresponding illustrations using text-to-image models. The application processes each story by dividing it into three sections—Introduction, Development, and Conclusion—providing a summarized version and generating an illustration for each section.
 
 # Features
-📜 Tale Summarization: Summarizes Turkish children's tales using AI-powered NLP models.
-📊 Model Performance Comparison: Evaluates different summarization models using ROUGE and BERTScore metrics.
-🎨 AI-Powered Visual Generation: Generates illustrations for each section of the story using text-to-image models.
-📝 Text and PDF Support: Users can upload TXT or PDF files to be summarized.
-🌍 English Translation: Summarized texts are translated into English for visualization purposes.
+- **Tale Summarization:** Automatically summarizes Turkish children's tales.
+- **Image Generation:** Generates illustrations for each section of the story using an AI-powered text-to-image model.
+- **File Upload:** Supports TXT and PDF file uploads.
+- **English Translation:** Translates summaries into English to enhance visual generation.
+- **User-Friendly Interface:** Clean and intuitive HTML/CSS interface for easy interaction.
+
 
 # 📂 Project Structure
 
-├── app.py                     # Flask web application
-├── config.txt                  # API keys and model configurations
-├── config_loader.py            # Loads configuration files
-├── image_generator.py          # AI-based image generation
-├── requirements.txt            # Required dependencies
-├── summarizer.py               # Main summarization logic
-├── templates/                  # HTML templates for Flask
+├── instance/ # Contains the SQLite database (summaries.db)
+├── static/ # Static files (CSS, images, JS) 
+│ └── styles.css 
+├── templates/ # HTML templates for the Flask
+│ └──index.html
+│ └──search.html
+│ └──summary.html 
+│ └──upload.html 
+
+├── app.py # Flask web application entry point 
+├── config.txt # API keys and model configurations 
+├── config_loader.py # Loads configuration settings 
+├── image_generator.py # Handles AI-based image generation 
+├── requirements.txt # Required dependencies for the web app 
+├── summarizer.py # Summarization logic for processing tales 
+
 
 
 # 🛠 Installation & Setup
@@ -33,34 +43,14 @@ The app will be accessible at local.
 1. Upload a Story
 Upload a TXT or PDF file containing a children's tale.
 
-3. Summarization & Translation
+2. Summarization & Translation
 The story is automatically summarized, divided into three sections (Introduction, Development, Conclusion), and translated into English.
 
-4. Image Generation
+3. Image Generation
 Illustrations are generated for each section using a text-to-image model.
 
-5. Performance Analysis
-The summarization quality is measured using ROUGE and BERTScore.
-
-6. Results Storage
-Summaries and images are saved for further evaluation.
-
-# ⚙️ Models Used
-Summarization Model: Turkish-NLP/t5-efficient-small-MLSUM-TR-fine-tuned
-Translation Model: Helsinki-NLP/opus-mt-tr-en
-Image Generation Model: stable-diffusion-v1-5/stable-diffusion-v1-5
-
-
-# 📊 Performance Evaluation
-The project includes a performance assessment of different summarization models using:
-
-ROUGE-1, ROUGE-2, ROUGE-L (Precision, Recall, F1-score)
-BERTScore (Evaluation against reference summaries)
-To evaluate model performance:
-python performance.py
-
-Comparison metrics are stored in the metrics/ directory.
-
+4. View Results:
+Summaries and generated images are displayed on the interface and stored locally for further reference.
 
 # 🔑 Configuration
 Add your API keys and model configurations in the config.txt file:
@@ -79,3 +69,5 @@ Contributions are welcome! Feel free to:
 Fork the repository
 Submit a pull request
 Report issues and suggest improvements
+
+This README now focuses solely on the user interface and core functionality of the Flask web application. It excludes any performance evaluation or analysis details that will be handled in separate projects.
