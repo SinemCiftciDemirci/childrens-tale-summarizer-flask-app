@@ -94,9 +94,12 @@ def create_app():
         utc_time = summary.timestamp
         utc_timestamp_filename = utc_time.strftime("%Y%m%d%H%M%S")
         model_name_safe = summary.model_name.replace("/", "_").replace("-", "_")
-        
-        # Dosya adı model adını içeriyor
-        summary_filename = f"{file_base_name}_{model_name_safe}_{utc_timestamp_filename}.txt"
+
+        # Var olan dosya adını temizleyip kullanalım (değişken isimlerini değiştirmeden!)
+        story_name_safe = file_base_name.replace("/", "_").replace("-", "_").replace(" ", "_")
+
+        # Yeni ve temiz dosya adı: MasalAdı__ModelAdı__Tarih.txt
+        summary_filename = f"{story_name_safe}__{model_name_safe}__{utc_timestamp_filename}.txt"
         summary_path = os.path.join(summaries_folder, summary_filename)
 
         try:
@@ -108,6 +111,7 @@ def create_app():
             logger.info(f"Özet '{summary_filename}' dosyasına kaydedildi.")
         except Exception as e:
             logger.error(f"Özet dosyası kaydedilirken hata oluştu: {e}")
+
 
 
     with app.app_context():
