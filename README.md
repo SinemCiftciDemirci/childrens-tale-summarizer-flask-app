@@ -1,4 +1,21 @@
-# childrens-tale-summarizer
+# Children's Tale Summarizer Flask App
+
+This project provides summarized versions of children's tales using NLP techniques.
+
+🔗 Related Projects
+This project is part of a modular research framework for evaluating and improving fairy tale summarization models. Below are the related repositories:
+
+| [Children's Tale Summarizer - Flask App] (https://github.com/SinemCiftciDemirci/childrens-tale-summarizer-flask-app) | The main Flask-based API that generates fairy tale summaries |
+| [GPT Summarizer](https://github.com/SinemCiftciDemirci/gpt-summarizer) | Creates GPT-based fairy tale summaries. |
+| [Cosine Similarity Summarizer](https://github.com/SinemCiftciDemirci/cosine-similarity-summarizer) | Performs extractive summarization using cosine similarity. |
+| [Single Summary Evaluation](https://github.com/SinemCiftciDemirci/single-summary-evaluation) | Measures the performance of a single summary using BERTScore and ROUGE score. |
+| [Batch Summary Performance Evaluation](https://github.com/SinemCiftciDemirci/batch-summary-performance-evaluation) | Compares model-generated summaries with GPT and Cosine-based reference summaries, calculating ROUGE and BERTScore collectively. |
+| [Summary Performance Comparison](https://github.com/SinemCiftciDemirci/summary-performance-comparison) | Creates visual performance comparisons from the `Model_Performance.xlsx` file produced in the Batch Summary Evaluation repo. |
+| [Vision Model Test](https://github.com/SinemCiftciDemirci/vision-model-test) | Translates the generated summaries into English and creates three visuals: introduction, development, and conclusion. |
+
+Each repository serves a **unique role** in evaluating or improving summarization models. You can use them **individually** or **together** for deeper analysis.
+
+
 # Overview
 This project is a Flask-based web application designed to summarize Turkish children's tales using AI-powered NLP models and generate corresponding illustrations using text-to-image models. The application processes each story by dividing it into three sections—Introduction, Development, and Conclusion—providing a summarized version and generating an illustration for each section.
 
