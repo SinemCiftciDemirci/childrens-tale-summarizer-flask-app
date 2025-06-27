@@ -1,18 +1,16 @@
 ````markdown
 # 🌟 Children's Tale Summarizer – Flask App
 
-A complete NLP pipeline for summarizing Turkish children's tales using transformer-based models and generating visual illustrations for each story segment. This project combines fine-tuned models, performance evaluation, multilingual translation, and AI-powered image generation.
+A complete NLP pipeline for summarizing Turkish children's tales using transformer-based models
+and generating visual illustrations for each story segment. This project combines fine-tuned models,
+performance evaluation, multilingual translation, and AI-powered image generation.
 
-![Python](https://img.shields.io/badge/Python-3.10-blue)
-![Flask](https://img.shields.io/badge/Flask-WebApp-green)
-![NLP](https://img.shields.io/badge/NLP-Transformer-orange)
-![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
-
----
 
 ## 🎯 Why This Project Matters
 
-Children’s literature in low-resource languages like Turkish lacks AI tools for educational enrichment. This project builds a **modular research and deployment framework** for abstractive summarization and visual storytelling. It enables enhanced comprehension and engagement through story segmentation, multilingual translation, and Stable Diffusion-based illustration.
+Children’s literature in low-resource languages like Turkish lacks AI tools for educational enrichment.
+This project builds a **modular research and deployment framework** for abstractive summarization and visual storytelling.
+It enables enhanced comprehension and engagement through story segmentation, multilingual translation, and Stable Diffusion-based illustration.
 
 ---
 
